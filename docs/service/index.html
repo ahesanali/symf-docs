@@ -4,12 +4,12 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <meta name="description" content="Customizing your Jigsaw docs site">
+        <meta name="description" content="Simple CRUD operation using application framework">
 
         <meta property="og:site_name" content="Symfony Core PHP Framework"/>
-        <meta property="og:title" content="Customizing Your Site | Symfony Core PHP Framework"/>
-        <meta property="og:description" content="Customizing your Jigsaw docs site"/>
-        <meta property="og:url" content="https://ahesanali.github.io/symf-docs/docs/customizing-your-site"/>
+        <meta property="og:title" content="Service | Symfony Core PHP Framework"/>
+        <meta property="og:description" content="Simple CRUD operation using application framework"/>
+        <meta property="og:url" content="https://ahesanali.github.io/symf-docs/docs/service"/>
         <meta property="og:image" content="/assets/img/logo.png"/>
         <meta property="og:type" content="website"/>
 
@@ -17,7 +17,7 @@
         <meta name="twitter:card" content="summary_large_image">
 
         
-        <title>Symfony Core PHP Framework | Customizing Your Site</title>
+        <title>Symfony Core PHP Framework | Service</title>
 
         <link rel="home" href="https://ahesanali.github.io/symf-docs">
         <link rel="icon" href="https://ahesanali.github.io/symf-docs/favicon.ico">
@@ -71,7 +71,7 @@
             <li class="pl-4">
             
         <a href="https://ahesanali.github.io/symf-docs/docs/getting-started"
-            class="lvl0 lvl0-active  nav-menu__item hover:text-blue-500"
+            class="lvl0   nav-menu__item hover:text-blue-500"
         >
             Getting Started
         </a>
@@ -90,7 +90,7 @@
             <li class="pl-4">
             
         <a href="https://ahesanali.github.io/symf-docs/docs/customizing-your-site"
-            class="lvl1  active font-semibold text-blue-500 nav-menu__item hover:text-blue-500"
+            class="lvl1   nav-menu__item hover:text-blue-500"
         >
             Customizing Your Site
         </a>
@@ -128,7 +128,7 @@
             <li class="pl-4">
             
         <a href="https://ahesanali.github.io/symf-docs/docs/simple-crud"
-            class="lvl0   nav-menu__item hover:text-blue-500"
+            class="lvl0 lvl0-active  nav-menu__item hover:text-blue-500"
         >
             Simple CRUD
         </a>
@@ -147,7 +147,7 @@
             <li class="pl-4">
             
         <a href="https://ahesanali.github.io/symf-docs/docs/service"
-            class="lvl1   nav-menu__item hover:text-blue-500"
+            class="lvl1  active font-semibold text-blue-500 nav-menu__item hover:text-blue-500"
         >
             Service
         </a>
@@ -195,82 +195,118 @@
         </nav>
 
         <div class="DocSearch-content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
-            <h1 id="customizing">Customizing Your Site</h1>
+            <h1 id="service">Service</h1>
 
-<h2>Styles</h2>
+<p>The services used</p>
 
-<p>This starter template comes pre-loaded with <a href="https://tailwindcss.com">Tailwind CSS</a>, a utility CSS framework that allows you to customize and build complex designs without touching a line of CSS. There are also a few base Sass files in the <code>/source/_assets/sass</code> folder, set up with the expectation that you can add any custom CSS into <code>_documentation.scss</code>.</p>
-
-<blockquote>
-  <p>You can re-work the architecture of the Sass includes any way you’d like; just make sure to keep the <code>@tailwind</code> references in your final files.</p>
-</blockquote>
-
-<pre><code class="language-scss">// source/_assets/sass/main.scss
-
-@tailwind preflight;
-@tailwind components;
-
-// Code syntax highlighting,
-// powered by https://highlightjs.org
-@import '~highlight.js/styles/a11y-light.css';
-
-@import 'base';
-@import 'navigation';
-@import 'documentation';
-
-@tailwind utilities;
+<pre><code>1. App\Service\AuthHelperService
+2. App\Service\ProductService
 </code></pre>
 
-<hr />
+<p>These classes likely live in your src/Service/ directory. They are:</p>
 
-<h2 id="customizing-typography">Typography Styles</h2>
+<ul>
+<li>Plain PHP classes containing business logic</li>
+<li>Registered automatically if autowire: true and autoconfigure: true are enabled (default in Symfony)</li>
+</ul>
 
-<p>Here’s a quick preview of what some of the basic type styles will look like in this starter template:</p>
+<p>For example, ProductService may have:</p>
 
-<div class="example pt-6">
+<pre><code class="language-php">&lt;?php
+namespace App\Service;
 
-<h1>h1 Heading</h1>
+use App\Utils\CoreDataService;
+use App\Utils\DBManager;
 
-<h2>h2 Heading</h2>
 
-<h3>h3 Heading</h3>
-
-<h4>h4 Heading</h4>
-
-<h5>h5 Heading</h5>
-
-<h6>h6 Heading</h6>
-
-<p>The quick brown fox jumps over the lazy dog</p>
-
-<p><s>The quick brown fox jumps over the lazy dog</s></p>
-
-<p><u>The quick brown fox jumps over the lazy dog</u></p>
-
-<p><em>The quick brown fox jumps over the lazy dog</em></p>
-
-<p><strong>The quick brown fox jumps over the lazy dog</strong></p>
-
-<p><code>The quick brown fox jumps over the lazy dog</code></p>
-
-<p><small>The quick brown fox jumps over the lazy dog</small></p>
-
-<blockquote>
-  <p>The quick brown fox jumps over the lazy dog</p>
-</blockquote>
-
-<p><a href="#">The quick brown fox jumps over the lazy dog</a></p>
-
-<pre><code class="language-php">class Foo extends bar
+class ProductService extends CoreDataService
 {
-    public function fooBar()
+
+    public function __construct(private DBManager $dbmanager)
+      {
+            parent::__construct($dbmanager);
+      }
+
+    /**
+    *  Get all my procust list 
+    */
+    public function getProductList()
     {
-        //
+        $get_all_products_sql = "SELECT id,name,price,color FROM products";
+
+        $product_list = $this-&gt;executeSQL($get_all_products_sql); 
+
+        return $product_list;
     }
+
 }
 </code></pre>
 
-</div>
+<p>Now let's understand this service by breaking down each piece.</p>
+
+<p><strong>Namespace</strong></p>
+
+<pre><code class="language-php">namespace App\Service;
+</code></pre>
+
+<ul>
+<li>This places the service in Symfony’s src/Service/ folder — part of the autowired service architecture.</li>
+</ul>
+
+<p><strong>Extends CoreDataService</strong></p>
+
+<pre><code class="language-php">class ProductService extends CoreDataService
+</code></pre>
+
+<ul>
+<li>CoreDataService is likely a custom abstract or base class that provides reusable data access methods, such as executeSQL().</li>
+</ul>
+
+<p><strong>Constructor</strong></p>
+
+<pre><code class="language-php">public function __construct(private DBManager $dbmanager)
+{
+    parent::__construct($dbmanager);
+}
+</code></pre>
+
+<ul>
+<li>Uses PHP 8+ constructor property promotion: private DBManager $dbmanager creates and assigns the class property.</li>
+<li>Injects DBManager — likely a service that abstracts database access (e.g. using PDO, Doctrine DBAL, or raw queries).</li>
+<li>Calls the parent constructor to ensure CoreDataService has access to the DBManager.</li>
+</ul>
+
+<p><strong>getProductList() Method</strong></p>
+
+<pre><code class="language-php">$get_all_products_sql = "SELECT id,name,price,color FROM products";
+$product_list = $this-&gt;executeSQL($get_all_products_sql); 
+</code></pre>
+
+<ul>
+<li>Runs a raw SQL query to fetch product details from the products table.</li>
+<li>Uses executeSQL() — presumably defined in CoreDataService — to run the query via DBManager.</li>
+</ul>
+
+<h4>Symfony Integration(Dependancy injection) configuration</h4>
+
+<p>As long as you have autowiring enabled in services.yaml (which is default):
+This services.yaml file is available inside config directory at root level.</p>
+
+<pre><code class="language-yaml">services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/'
+</code></pre>
+
+<p>As we can see from above configuration that src directory always accepts the PHP classes only. Also what ever classes declared insdie src directory are autowired and autoconfigured. What is autowire means let's understand. Autowiring means Symfony automatically injects (i.e., "wires") dependencies into your services by looking at the type hints in constructors or methods.</p>
         </div>
     </div>
 </section>

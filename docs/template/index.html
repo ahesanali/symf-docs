@@ -4,12 +4,12 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <meta name="description" content="Customizing your Jigsaw docs site">
+        <meta name="description" content="Simple CRUD operation using application framework">
 
         <meta property="og:site_name" content="Symfony Core PHP Framework"/>
-        <meta property="og:title" content="Customizing Your Site | Symfony Core PHP Framework"/>
-        <meta property="og:description" content="Customizing your Jigsaw docs site"/>
-        <meta property="og:url" content="https://ahesanali.github.io/symf-docs/docs/customizing-your-site"/>
+        <meta property="og:title" content="Template | Symfony Core PHP Framework"/>
+        <meta property="og:description" content="Simple CRUD operation using application framework"/>
+        <meta property="og:url" content="https://ahesanali.github.io/symf-docs/docs/template"/>
         <meta property="og:image" content="/assets/img/logo.png"/>
         <meta property="og:type" content="website"/>
 
@@ -17,7 +17,7 @@
         <meta name="twitter:card" content="summary_large_image">
 
         
-        <title>Symfony Core PHP Framework | Customizing Your Site</title>
+        <title>Symfony Core PHP Framework | Template</title>
 
         <link rel="home" href="https://ahesanali.github.io/symf-docs">
         <link rel="icon" href="https://ahesanali.github.io/symf-docs/favicon.ico">
@@ -71,7 +71,7 @@
             <li class="pl-4">
             
         <a href="https://ahesanali.github.io/symf-docs/docs/getting-started"
-            class="lvl0 lvl0-active  nav-menu__item hover:text-blue-500"
+            class="lvl0   nav-menu__item hover:text-blue-500"
         >
             Getting Started
         </a>
@@ -90,7 +90,7 @@
             <li class="pl-4">
             
         <a href="https://ahesanali.github.io/symf-docs/docs/customizing-your-site"
-            class="lvl1  active font-semibold text-blue-500 nav-menu__item hover:text-blue-500"
+            class="lvl1   nav-menu__item hover:text-blue-500"
         >
             Customizing Your Site
         </a>
@@ -128,7 +128,7 @@
             <li class="pl-4">
             
         <a href="https://ahesanali.github.io/symf-docs/docs/simple-crud"
-            class="lvl0   nav-menu__item hover:text-blue-500"
+            class="lvl0 lvl0-active  nav-menu__item hover:text-blue-500"
         >
             Simple CRUD
         </a>
@@ -156,7 +156,7 @@
             <li class="pl-4">
             
         <a href="https://ahesanali.github.io/symf-docs/docs/template"
-            class="lvl1   nav-menu__item hover:text-blue-500"
+            class="lvl1  active font-semibold text-blue-500 nav-menu__item hover:text-blue-500"
         >
             View
         </a>
@@ -195,82 +195,69 @@
         </nav>
 
         <div class="DocSearch-content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
-            <h1 id="customizing">Customizing Your Site</h1>
+            <h1 id="template">Template</h1>
 
-<h2>Styles</h2>
+<h4>Templates</h4>
 
-<p>This starter template comes pre-loaded with <a href="https://tailwindcss.com">Tailwind CSS</a>, a utility CSS framework that allows you to customize and build complex designs without touching a line of CSS. There are also a few base Sass files in the <code>/source/_assets/sass</code> folder, set up with the expectation that you can add any custom CSS into <code>_documentation.scss</code>.</p>
-
-<blockquote>
-  <p>You can re-work the architecture of the Sass includes any way you’d like; just make sure to keep the <code>@tailwind</code> references in your final files.</p>
-</blockquote>
-
-<pre><code class="language-scss">// source/_assets/sass/main.scss
-
-@tailwind preflight;
-@tailwind components;
-
-// Code syntax highlighting,
-// powered by https://highlightjs.org
-@import '~highlight.js/styles/a11y-light.css';
-
-@import 'base';
-@import 'navigation';
-@import 'documentation';
-
-@tailwind utilities;
+<pre><code class="language-php">$content = $this-&gt;template('products/list', compact('products'));
 </code></pre>
 
-<hr />
+<ul>
+<li>This assumes the controller extends BaseController, which has a method template().</li>
+<li>That method likely renders a PHP template, like templates/products/list.php, and returns the rendered HTML as a string.</li>
+<li>compact('products') creates an associative array like ['products' => $products] for use in the template.</li>
+</ul>
 
-<h2 id="customizing-typography">Typography Styles</h2>
+<p>In the template, you’d access products like:</p>
 
-<p>Here’s a quick preview of what some of the basic type styles will look like in this starter template:</p>
-
-<div class="example pt-6">
-
-<h1>h1 Heading</h1>
-
-<h2>h2 Heading</h2>
-
-<h3>h3 Heading</h3>
-
-<h4>h4 Heading</h4>
-
-<h5>h5 Heading</h5>
-
-<h6>h6 Heading</h6>
-
-<p>The quick brown fox jumps over the lazy dog</p>
-
-<p><s>The quick brown fox jumps over the lazy dog</s></p>
-
-<p><u>The quick brown fox jumps over the lazy dog</u></p>
-
-<p><em>The quick brown fox jumps over the lazy dog</em></p>
-
-<p><strong>The quick brown fox jumps over the lazy dog</strong></p>
-
-<p><code>The quick brown fox jumps over the lazy dog</code></p>
-
-<p><small>The quick brown fox jumps over the lazy dog</small></p>
-
-<blockquote>
-  <p>The quick brown fox jumps over the lazy dog</p>
-</blockquote>
-
-<p><a href="#">The quick brown fox jumps over the lazy dog</a></p>
-
-<pre><code class="language-php">class Foo extends bar
-{
-    public function fooBar()
-    {
-        //
-    }
+<pre><code class="language-php">foreach ($products as $product) {
+    echo $product['name'] ;
 }
 </code></pre>
 
-</div>
+<h4>BaseController</h4>
+
+<p>The controller extends BaseController, which is not shown. The template() method is used to load and display a PHP view file (template) and make some data (like session and auth helper) available to it.</p>
+
+<p>If you call:</p>
+
+<pre><code class="language-php">$this-&gt;template('products/list', ['products' =&gt; $products]);
+</code></pre>
+
+<p>Then inside templates/products/list.php, you can use:</p>
+
+<pre><code class="language-php">$products (from parameters)
+
+$session (from the request)
+
+$authHelper (from controller)
+</code></pre>
+
+<h4>layout for simple crud</h4>
+
+<p>Now let's build simple layout for our example which we can use for listing the products as well creating/editing any product with form.
+Let's create a layout file inside templates directory called templates/product_layout.php</p>
+
+<pre><code class="language-HTML">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Layout with Sections&lt;/title&gt;
+    &lt;link rel="stylesheet" href="&lt;?= assetPath('styles/app.css') ?&gt;"&gt;
+    &lt;?= App\Utils\View::getSection('head') ?&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;header&gt;&lt;h1&gt;Product Portal&lt;/h1&gt;&lt;/header&gt;
+    &lt;a href="&lt;?= route('')?&gt;"&gt;Product List&lt;/a&gt;
+    &lt;a href="&lt;?= route('')?&gt;"&gt;Create New Product&lt;/a&gt;
+    &lt;main&gt;&lt;?= $content ?&gt;&lt;/main&gt;
+    &lt;footer&gt;&lt;small&gt;Footer&lt;/small&gt;&lt;/footer&gt;
+    &lt;script src="&lt;?= assetPath('js/app.js') ?&gt;"&gt;&lt;/script&gt;
+    &lt;?= App\Utils\View::getSection('scripts') ?&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>Now we do not have to write menu and app.css and app.js includes in every php view files that is needed for CRUD functionality. We have defined this stufs in above layout. Now we will use this layout in other words we will extends this layout in our view(template) php files. Let see an exampe of products/list.php</p>
         </div>
     </div>
 </section>
